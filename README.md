@@ -6,7 +6,7 @@ In this hands-on Azure lab, I traced how a workload reaches a Storage account th
 
 The goal was to understand the configured path from the workload to storage, identify which controls affect that path, and explain why traffic to the Private Endpoint does not follow the subnet's default route through the firewall appliance.
 
-> **Environment note:** This is a lab investigation. The screenshots and findings document the configuration I inspected; they do not represent a production client environment.
+> **Environment note:** This is a lab investigation. The screenshots and findings document the configuration I inspected
 
 ## What I investigated
 
