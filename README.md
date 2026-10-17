@@ -20,7 +20,8 @@ The goal was to understand the configured path from the workload to storage, ide
 
 I started with the VNet's **Subnets** blade and identified `snet-workload`. The subnet is associated with both an NSG and a route table, so I continued by examining those controls.
 
-![Azure portal showing the workload subnet and its NSG and route-table associations](images/chapter5/01-workload-subnet.png)
+<img width="1917" height="872" alt="image" src="https://github.com/user-attachments/assets/224b6d47-ea6e-4a1d-b5ce-6ac0261a769d" />
+
 
 **What this establishes:** the subnet is the workload's network segment, and its attached security and routing controls influence traffic to and from resources in that subnet.
 
@@ -28,7 +29,8 @@ I started with the VNet's **Subnets** blade and identified `snet-workload`. The 
 
 I inspected the inbound security rules on the workload NSG. The custom rules include an HTTPS allow rule restricted to a specific source and a separate inbound deny rule, followed by Azure's default inbound rules.
 
-![Redacted Azure portal screenshot showing workload NSG inbound rules](images/chapter5/02-nsg-inbound-rules.png)
+<img width="1917" height="662" alt="image" src="https://github.com/user-attachments/assets/3586cdf0-b4ee-4da7-af0e-707aebc84a19" />
+
 
 **What this establishes:** NSG rules filter traffic based on rule priority, source, destination, port, protocol, and action. An allow rule for TCP 443 applies to traffic matching that rule; it does not by itself mean every endpoint can successfully complete an application-level connection.
 
@@ -36,7 +38,8 @@ I inspected the inbound security rules on the workload NSG. The custom rules inc
 
 I inspected the route table associated with the workload subnet. It contains a user-defined route for `0.0.0.0/0` with a virtual appliance as the next hop.
 
-![Redacted Azure portal screenshot showing the workload route table](images/chapter5/03-route-table.png)
+<img width="2014" height="781" alt="image" src="https://github.com/user-attachments/assets/83d4b118-0d31-4390-8981-947d6b88b446" />
+
 
 **What this establishes:** the default route directs traffic that has no more-specific matching route toward the virtual appliance. The actual next hop is selected using Azure's route-selection behavior, including longest-prefix matching.
 
@@ -44,7 +47,8 @@ I inspected the route table associated with the workload subnet. It contains a u
 
 I reviewed the Private Endpoint's DNS configuration and confirmed that it has a private IP address associated with the Storage service's blob endpoint.
 
-![Redacted Azure portal screenshot showing Private Endpoint DNS configuration](images/chapter5/04-private-endpoint-dns.png)
+<img width="1905" height="712" alt="image" src="https://github.com/user-attachments/assets/8718216f-2456-4fcf-9d80-c82977dc09ca" />
+
 
 **What this establishes:** the Private Endpoint provides a private IP in the VNet that maps to the target PaaS service through Azure Private Link. The endpoint connection must also be approved for the intended connection to work.
 
@@ -52,7 +56,8 @@ I reviewed the Private Endpoint's DNS configuration and confirmed that it has a 
 
 I inspected the private DNS zone `privatelink.blob.core.windows.net` and its A record. The record maps the Storage account's private-link hostname to the Private Endpoint's private IP.
 
-![Redacted Azure portal screenshot showing the private DNS A record](images/chapter5/05-private-dns-record.png)
+<img width="1702" height="605" alt="azure-private-dns-records-redacted" src="https://github.com/user-attachments/assets/1c5ce6f4-7e39-4de7-95ea-7a43d2efa636" />
+
 
 **What this establishes:** private DNS resolution lets the application continue using the Storage account's hostname while resolving it to the Private Endpoint's private IP from a network linked to the private DNS zone.
 
